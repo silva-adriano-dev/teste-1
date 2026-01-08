@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem Regressiva</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #countdown {
+            font-size: 4rem;
+            font-weight: bold;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            min-width: 100px;
+        }
+
+        .label {
+            display: block;
+            font-size: 1rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            #countdown { font-size: 2rem; gap: 10px; }
+            .time-box { min-width: 60px; padding: 10px; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>CONTAGEM REGRESSIVA PARA MINHA CHEGADA</h1>
+        <div id="countdown">
+            <div class="time-box">
+                <span id="days">00</span>
+                <span class="label">Dias</span>
+            </div>
+            <div class="time-box">
+                <span id="hours">00</span>
+                <span class="label">Horas</span>
+            </div>
+            <div class="time-box">
+                <span id="minutes">00</span>
+                <span class="label">Min</span>
+            </div>
+            <div class="time-box">
+                <span id="seconds">00</span>
+                <span class="label">Seg</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Define a data alvo: 20 de Janeiro às 08:00:00
+        // Nota: O mês no JavaScript começa em 0 (Janeiro = 0)
+        const targetDate = new Date(new Date().getFullYear(), 0, 20, 8, 0, 0).getTime();
+
+        const countdown = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Cálculos de tempo
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Exibe o resultado nos elementos correspondentes
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            // Se a contagem terminar
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.querySelector(".container").innerHTML = "<h1>JÁ CHEGUEI!</h1>";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
